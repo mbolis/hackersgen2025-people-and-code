@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image upload</title>
+  <style>
+    .error {
+      color: red;
+    }
+
+    .success {
+      color: forestgreen;
+    }
+
+    #images {
+      padding: 0;
+    }
+
+    #images>li {
+      display: inline-block;
+      margin: 0.5em;
+    }
+
+    .template {
+      display: hidden;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Image upload</h1>
+  <form action="/upload" method="post">
+    <div>
+      <label for="file">Image:</label>
+      <input type="file" name="file" id="file">
+    </div>
+    <button type="submit">Upload</button>
+  </form>
+  <pre id="output"></pre>
+  <ul id="images">
+    <li class="template">
+      <a href="">
+        <img src="" alt="">
+      </a>
+    </li>
+  </ul>
+
+  <script>
+    "use strict"
+
+    const [form] = document.forms;
+    const output = document.querySelector("#output");
+    const images = document.querySelector("#images");
+
+    const liTemplate = document.querySelector("li.template");
+    liTemplate.remove();
+    liTemplate.classList.remove("template");
+
+    form.onsubmit = async function (e) {
+      e.preventDefault();
+
+      const resp = await fetch(form.action, {
+        method: form.method,
+        body: new FormData(form),
+      });
+      if (resp.status >= 400) {
+        output.className = "error";
+      } else {
+        output.className = "success";
+      }
+
+      const json = await resp.json();
+      output.textContent = JSON.stringify(json, null, 2);
+      await refetchImages();
+    };
+
+    refetchImages();
+    async function refetchImages() {
+      const resp = await fetch("/uploads");
+      const json = await resp.json();
+
+      const lis = json.images.map(({ name, url, thumb }) => {
+        const li = liTemplate.cloneNode(true);
+        
+        const a = li.querySelector("a");
+        a.href = url;
+        
+        const img = li.querySelector("img");
+        img.src = thumb;
+        img.alt = name;
+
+        return li;
+      });
+
+      images.innerHTML = "";
+      images.append(...lis);
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,15 @@
+{
+    "python.analysis.typeCheckingMode": "standard",
+    "[python]": {
+        "diffEditor.ignoreTrimWhitespace": false,
+        "editor.codeActionsOnSave": {
+            "source.fixAll.ruff": "explicit",
+            "source.organizeImports.ruff": "explicit"
+        },
+        "editor.defaultColorDecorators": "never",
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "editor.formatOnSave": true,
+        "editor.tabSize": 4,
+        "editor.wordBasedSuggestions": "off",
+    },
+}
