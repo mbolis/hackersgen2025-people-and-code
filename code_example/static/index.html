@@ -6,6 +6,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Image upload</title>
   <style>
+    @keyframes fadeToBlack {
+      from {
+        color: white;
+      }
+
+      to {
+        color: initial;
+      }
+    }
+
+    h1 {
+      animation: fadeToBlack 3s forwards;
+    }
+
+    @keyframes fadeToYellow {
+      to {
+        color: gold;
+      }
+    }
+
+    h1.warning {
+      animation: fadeToYellow 2s forwards;
+    }
+
+    @keyframes fadeToRed {
+      to {
+        color: red;
+      }
+    }
+
+    h1.error.error {
+      animation: fadeToRed 2s forwards;
+    }
+
     .error {
       color: red;
     }
@@ -83,10 +117,10 @@
 
       const lis = json.images.map(({ name, url, thumb }) => {
         const li = liTemplate.cloneNode(true);
-        
+
         const a = li.querySelector("a");
         a.href = url;
-        
+
         const img = li.querySelector("img");
         img.src = thumb;
         img.alt = name;
@@ -96,6 +130,39 @@
 
       images.innerHTML = "";
       images.append(...lis);
+    }
+
+    // Auto-reload on server restart
+    initSSE();
+    function initSSE(appId, errors = 0) {
+      const statusEvents = new EventSource("/ping");
+      statusEvents.onmessage = e => {
+        if (!appId) {
+          appId = e.data;
+          return;
+        }
+        if (appId !== e.data) {
+          window.location.reload();
+        }
+      };
+
+      const h1 = document.querySelector("h1");
+      statusEvents.onerror = () => {
+        errors++;
+        if (errors > 2) {
+          h1.classList.remove("warning");
+          h1.classList.add("error");
+          return;
+        }
+        
+        h1.classList.add("warning");
+
+        statusEvents.close();
+        setTimeout(
+          () => initSSE(appId, errors),
+          errors ** 2 * 100,
+        );
+      };
     }
   </script>
 </body>

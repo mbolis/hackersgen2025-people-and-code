@@ -1,8 +1,10 @@
 import datetime
 import os
+import time
 from numbers import Rational
+from uuid import uuid4
 
-from flask import Flask, abort, helpers, jsonify, request
+from flask import Flask, Response, abort, jsonify, request, send_file
 from PIL import ExifTags, Image
 
 app = Flask(__name__, static_folder="./static", static_url_path="/")
@@ -36,14 +38,14 @@ def get_uploaded_images():
 def get_one_uploaded_image(filename):
     if not os.path.exists(f"uploads/{filename}"):
         return abort(404)
-    return helpers.send_file(f"uploads/{filename}")
+    return send_file(f"uploads/{filename}")
 
 
 @app.get("/thumbnails/<filename>")
 def get_image_thumbnail(filename):
     if not os.path.exists(f"thumbnails/{filename}"):
         return abort(404)
-    return helpers.send_file(f"thumbnails/{filename}")
+    return send_file(f"thumbnails/{filename}")
 
 
 @app.route("/upload", methods=["POST"])
@@ -124,3 +126,21 @@ def upload_image():
         )
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+# Support auto-reload of remote page
+app_id = uuid4()
+
+
+@app.get("/ping")
+def ping():
+    def generate_status():
+        while True:
+            time.sleep(0.5)
+            yield f"data: {app_id}\n\n"
+
+    return Response(generate_status(), content_type="text/event-stream")
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
