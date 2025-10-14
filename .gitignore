@@ -1,0 +1,14 @@
+# Java
+.idea
+*.iml
+*.class
+*.jar
+
+/out
+/test_out
+
+# JavaScript
+node_modules
+
+# Python
+__pycache__

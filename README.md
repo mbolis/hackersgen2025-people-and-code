@@ -4,66 +4,61 @@
 
 Benvenuti alle nostre sfide di leggibilità del codice! Questo repository contiene 3 sfide pratiche per migliorare le vostre capacità di scrivere codice pulito, manutenibile e comprensibile.
 
-Se siete interessati alle slide e agli esempi della presentazione del 16 ottobre 2025, li trovate qui: [Presentazione](./code_example)
+Se siete interessati alle slide e agli esempi della presentazione del 16 ottobre 2025, li trovate qui: [Presentazione](./demo)
 
 ## 📋 Le Sfide
 
-### Sfida 1: The Refactoring Challenge 🔧
-Impara a trasformare codice confuso in codice chiaro e manutenibile.
+Ora mettetevi alla prova con tre sfide progressivamente più complesse. Ogni sfida insegna un principio fondamentale del *clean coding*, accompagnato da una breve introduzione teorica e link per approfondire.
 
-- **[Tier 1 - Base](./challenge-01-refactoring/)**: Refactoring di una funzione con nomi pessimi, numeri magici e nesting profondo
-- **[Tier 2 - Avanzato](./challenge-01-refactoring/)**: Refactoring di un intero modulo applicando i principi SOLID
+Partecipare è semplice: fai un fork, modifica il codice, crea una PR. ([vedi sotto per maggiori dettagli](#-come-partecipare)) **I primi a completare ogni sfida riceveranno un gadget Hackersgen!** ⭐
 
-**Cosa imparerai**: Naming, costanti, riduzione della complessità, separazione delle responsabilità
+### 🟢 Sfida 1: Nomi Significativi e Costanti
+**Argomenti:** DRY (Don't Repeat Yourself), Self-documenting code, Magic numbers e magic strings
 
----
+Inizia da qui se è la tua prima sfida. Ti troverai di fronte a un codice pieno di variabili dal nome inutile (`p`, `x`, `tmp`) e valori magici sparsi dappertutto (`0.85`, `100`, `50`). Il tuo compito? Dare nomi significativi alle cose e mettere ordine.
 
-### Challenge 2: The Error Handler 🛡️
-Impara a gestire gli errori in modo professionale.
+**Tempo stimato:** 30-60 minuti  
+**Difficoltà:** ⭐ Facile
 
-- **[Tier 1 - Base](./challenge-02-error-handling/)**: Aggiungi gestione degli errori a funzioni che crashano
-- **[Tier 2 - Avanzato](./challenge-02-error-handling/)**: Implementa una strategia completa di error handling con logging
-
-**Cosa imparerai**: Try-except, logging, messaggi utente, graceful degradation
+👉 [Vai alla Sfida 1](./challenge-1)
 
 ---
 
-### Challenge 3: The Documentation Master 📝
-Impara l'arte della documentazione: quando scrivere, cosa scrivere, quando NON scrivere.
+### 🟡 Sfida 2: Single Responsibility Principle
+**Argomenti:** SRP, Funzioni focalizzate, Coesione, Separazione delle responsabilità
 
-- **[Tier 1 - Base](./challenge-03-documentation/)**: Documenta un modulo con docstring e README
-- **[Tier 2 - Avanzato](./challenge-03-documentation/)**: Refactorizza codice iper-commentato in codice auto-documentante
+Una funzione che fa di tutto: valida, calcola, salva, notifica, logga. È il peggiore incubo di chi deve mantenerlo. Il tuo compito? Spezzarla in funzioni piccole, ognuna con una responsabilità ben definita. Imparerai perché le funzioni focalizzate sono più facili da testare, riutilizzare e modificare.
 
-**Cosa imparerai**: Docstrings, README, commenti utili vs ridondanti, codice auto-esplicativo
+**Tempo stimato:** 1-2 ore  
+**Difficoltà:** ⭐⭐ Intermedia
+
+👉 [Vai alla Sfida 2](./challenge-2)
+
+---
+
+### 🔴 Sfida 3: Incapsulamento e Astrazione
+**Argomenti:** Incapsulamento, Astrazione, Information hiding, Interfacce semplici
+
+La sfida finale: un sistema di processamento immagini con logica complessa, nesting profondo e gestione errori sparsa. Devi crearne un'astrazione elegante, nascondendo i dettagli dietro interfacce semplici e intuitive. Questa è la sfida dove metti insieme tutto quello che hai imparato.
+
+**Tempo stimato:** 2-4 ore  
+**Difficoltà:** ⭐⭐⭐ Avanzata
+
+👉 [Vai alla Sfida 3](./challenge-3)
 
 ---
 
 ## 🏆 Hall of Fame
 
-I primi 3 completamenti di ogni sfida vincono premi speciali!
+Il primo di voi a completare ogni sfida vince un premio speciale!
 
-### Challenge 1: The Refactoring Challenge
-
-#### Tier 1 - Base
+### Sfida 1: Nomi Significativi e Costanti
 🥇 🥈 🥉 *In attesa delle prime submission!*
 
-#### Tier 2 - Avanzato
+### Sfida 2: Single Responsibility Principle
 🥇 🥈 🥉 *In attesa delle prime submission!*
 
-### Challenge 2: The Error Handler
-
-#### Tier 1 - Base
-🥇 🥈 🥉 *In attesa delle prime submission!*
-
-#### Tier 2 - Avanzato
-🥇 🥈 🥉 *In attesa delle prime submission!*
-
-### Challenge 3: The Documentation Master
-
-#### Tier 1 - Base
-🥇 🥈 🥉 *In attesa delle prime submission!*
-
-#### Tier 2 - Avanzato
+### Sfida 3: Incapsulamento e Astrazione
 🥇 🥈 🥉 *In attesa delle prime submission!*
 
 ---
@@ -76,7 +71,7 @@ Clicca sul pulsante "Fork" in alto a destra per creare la tua copia del reposito
 ### 2️⃣ Clona il Tuo Fork
 ```bash
 git clone https://github.com/TUO-USERNAME/hackersgen2025-people-and-code.git
-cd code-quality-challenges
+cd hackersgen2025-people-and-code
 ```
 
 ### 3️⃣ Crea un Branch per la Tua Soluzione

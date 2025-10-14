@@ -269,7 +269,7 @@ git remote -v
 
 Dovresti vedere il TUO username nell'URL. Se vedi quello originale:
 ```bash
-git remote set-url origin https://github.com/TUO-USERNAME/code-quality-challenges.git
+git remote set-url origin https://github.com/TUO-USERNAME/hackersgen2025-people-and-code.git
 ```
 
 ### "Nothing to commit"

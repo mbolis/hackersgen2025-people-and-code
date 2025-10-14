@@ -10,7 +10,7 @@ git clone https://github.com/mbolis/hackersgen2025-people-and-code.git
 ```
 Eseguite i seguenti comandi per avviare il programma di esempio:
 ```sh
-cd hackersgen2025-people-and-code/code_example
+cd hackersgen2025-people-and-code/demo
 uv run app.py
 ```
 Poi aprite il vostro browser all'indirizzo `http://localhost:5000/`.
@@ -22,7 +22,7 @@ Trovate due immagini di esempio da caricare nell'applicazione nella cartella `im
 ### Modificare il codice
 Per effettuare modifiche al codice, vi suggerisco di usare [VS Code](https://code.visualstudio.com/download):
 ```sh
-cd hackersgen2025-people-and-code/code_example
+cd hackersgen2025-people-and-code/demo
 code .
 ```
 
