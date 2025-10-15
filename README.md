@@ -76,22 +76,24 @@ cd hackersgen2025-people-and-code
 
 ### 3️⃣ Crea un Branch per la Tua Soluzione
 ```bash
-git switch -c challenge-1-tier-1-tuo-nome
+git switch -c sfida1-tuonome
 ```
-Usa un nome descrittivo: `challenge-X-tier-Y-tuonome`
+Usa un nome descrittivo: `sfidaX-tuonome`
 
 ### 4️⃣ Lavora sulla Sfida
-- Vai nella cartella della sfida (es. `challenge-01-refactoring/`)
-- Scegli il linguaggio che preferisci (python, javascript, java, ecc.)
+- Vai nella cartella della sfida (es. `challenge-1/`)
 - Leggi il README della sfida per istruzioni dettagliate
+- Scegli il linguaggio che preferisci (python, javascript, java, ecc.)
 - Scrivi la tua soluzione!
 
 ### 5️⃣ Commit e Push
 ```bash
 git add .
-git commit -m "Challenge 1 Tier 1 - Refactoring completato"
-git push origin challenge-1-tier-1-tuo-nome
+git commit -m "Sfida 1: Refactoring completato"
+git push origin sfida1-tuonome
 ```
+
+Usa un messaggio di commit chiaro, che spieghi super-sinteticamente cosa hai fatto. Considera che potrebbero esserci commit successive, specialmente se ricevi commenti o indicazioni, o hai altre modifiche da committare.
 
 ### 6️⃣ Apri una Pull Request
 - Vai sul tuo fork su GitHub

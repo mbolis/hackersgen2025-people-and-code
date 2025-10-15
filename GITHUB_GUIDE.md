@@ -91,7 +91,7 @@ Ora scarica la tua copia sul tuo computer.
 Un "branch" è come una timeline alternativa dove puoi lavorare senza toccare l'originale.
 
 ```bash
-git checkout -b challenge-1-tier-1-tuonome
+git switch -c challenge-1-tier-1-tuonome
 ```
 
 Sostituisci con il tuo nome e la sfida che vuoi fare!
@@ -205,10 +205,10 @@ git log
 git branch
 
 # Cambiare branch
-git checkout nome-branch
+git switch nome-branch
 
 # Creare un nuovo branch
-git checkout -b nuovo-branch
+git switch -c nuovo-branch
 
 # Aggiungere file allo staging
 git add nome-file.py
