@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -17,181 +18,184 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ShopDiscountTest {
 
-    // TEST DISCOUNT CALCULATION:
-    // Testa che il calcolo degli sconti funzioni correttamente
+    @Nested
+    @DisplayName("Testa che il calcolo degli sconti funzioni correttamente")
+    class TestDiscountCalculation {
+        @Test
+        @DisplayName("Cliente base senza sconto di quantità")
+        void testBasicCustomerNoDiscount() {
+            double result = ShopDiscount.calculateDiscount(100, "basic", 1);
+            assertEquals(100, result, "Cliente basic dovrebbe pagare prezzo pieno");
+        }
 
-    @Test
-    @DisplayName("Cliente base senza sconto di quantità")
-    void testBasicCustomerNoDiscount() {
-        double result = ShopDiscount.calculateDiscount(100, "basic", 1);
-        assertEquals(100, result, "Cliente basic dovrebbe pagare prezzo pieno");
+        @Test
+        @DisplayName("Cliente premium dovrebbe avere 15% di sconto")
+        void testPremiumCustomerDiscount() {
+            double result = ShopDiscount.calculateDiscount(100, "premium", 1);
+            assertEquals(85, result, String.format("Cliente premium: 100 * 0.85 = 85, ottenuto %f", result));
+        }
+
+        @Test
+        @DisplayName("Cliente VIP dovrebbe avere 25% di sconto")
+        void testVipCustomerDiscount() {
+            double result = ShopDiscount.calculateDiscount(100, "vip", 1);
+            assertEquals(75, result, String.format("Cliente VIP: 100 * 0.75 = 75, ottenuto %f", result));
+        }
+
+        @Test
+        @DisplayName("5 prodotti = 5% di sconto aggiuntivo")
+        void testQuantityDiscount5Items() {
+            double result = ShopDiscount.calculateDiscount(100, "basic", 5);
+            double expected = 100 * 0.95;
+            assertEquals(expected, result, String.format("Sconto quantità 5: %f, ottenuto %f", expected, result));
+        }
+
+        @Test
+        @DisplayName("10 prodotti = 10% di sconto aggiuntivo")
+        void testQuantityDiscount10Items() {
+            double result = ShopDiscount.calculateDiscount(100, "basic", 10);
+            double expected = 100 * 0.9;
+            assertEquals(expected, result, String.format("Sconto quantità 10: %f, ottenuto %f", expected, result));
+        }
+
+        @Test
+        @DisplayName("Ordini > €100 ottengono 2% di sconto aggiuntivo")
+        void testLargeOrderDiscount() {
+            double result = ShopDiscount.calculateDiscount(150, "basic", 1);
+            double expected = 150 * 0.98;
+            assertEquals(expected, result, String.format("Sconto ordine grande: %f, ottenuto %f", expected, result));
+        }
     }
 
-    @Test
-    @DisplayName("Cliente premium dovrebbe avere 15% di sconto")
-    void testPremiumCustomerDiscount() {
-        double result = ShopDiscount.calculateDiscount(100, "premium", 1);
-        assertEquals(85, result, String.format("Cliente premium: 100 * 0.85 = 85, ottenuto %f", result));
+    @Nested
+    @DisplayName("Testa che il calcolo del totale dell'ordine funzioni")
+    class TestTotalOrderCalculation {
+        @Test
+        @DisplayName("Ordine semplice di un cliente basic")
+        void testOrderBasicCustomer() {
+            final var items = List.of(new ShopDiscount.Item(50, 1));
+            final var order = ShopDiscount.calculateTotalOrder(items, "basic");
+            assertEquals(50, order.subtotal());
+            assertEquals(Math.round(50 * 0.22 * 100.0) / 100.0, order.tax());
+        }
+
+        @Test
+        @DisplayName("Cliente premium dovrebbe avere sconto")
+        void testOrderPremiumCustomer() {
+            final var items = List.of(new ShopDiscount.Item(100, 1));
+            final var order = ShopDiscount.calculateTotalOrder(items, "premium");
+            // €100 * 0.85 (premium) = €85
+            // Tasse: €85 * 0.22 = €18.70
+            // Totale: €85 + €18.70 = €103.70
+            assertEquals(85, order.subtotal());
+            double expected = Math.round((85 + 85 * 0.22) * 100.0) / 100.0;
+            assertEquals(expected, order.total());
+        }
+
+        @Test
+        @DisplayName("Ordini > €500 ottengono ulteriore 5% di sconto")
+        void testLargeOrderGetsFinalDiscount() {
+            final var items = List.of(new ShopDiscount.Item(200, 3));
+            final var order = ShopDiscount.calculateTotalOrder(items, "basic");
+            // Subtotale: €600
+            // Tasse: €600 * 0.22 = €132
+            // Totale prima sconto: €732
+            // Con sconto 5%: €732 * 0.98 * 0.95 = €681.49
+            assertTrue(order.discountApplied(), "Discount should be applied");
+            double expected = Math.round(732 * 0.98 * 0.95 * 100.0) / 100.0;
+            assertEquals(expected, order.total());
+        }
     }
 
-    @Test
-    @DisplayName("Cliente VIP dovrebbe avere 25% di sconto")
-    void testVipCustomerDiscount() {
-        double result = ShopDiscount.calculateDiscount(100, "vip", 1);
-        assertEquals(75, result, String.format("Cliente VIP: 100 * 0.75 = 75, ottenuto %f", result));
+    @Nested
+    @DisplayName("Testa le descrizioni dei tipi di cliente")
+    class TestCustomerTierDescription {
+        @Test
+        void testBasicTierDescription() {
+            String result = ShopDiscount.getCustomerTierDescription("basic");
+            assertTrue(result.contains("Base"));
+        }
+
+        @Test
+        void testPremiumTierDescription() {
+            String result = ShopDiscount.getCustomerTierDescription("premium");
+            assertTrue(result.contains("Premium"));
+        }
+
+        @Test
+        void testVipTierDescription() {
+            String result = ShopDiscount.getCustomerTierDescription("vip");
+            assertTrue(result.contains("VIP"));
+        }
     }
 
-    @Test
-    @DisplayName("5 prodotti = 5% di sconto aggiuntivo")
-    void testQuantityDiscount5Items() {
-        double result = ShopDiscount.calculateDiscount(100, "basic", 5);
-        double expected = 100 * 0.95;
-        assertEquals(expected, result, String.format("Sconto quantità 5: %f, ottenuto %f", expected, result));
+    @Nested
+    @DisplayName("Test che verificano se hai estratto correttamente le costanti")
+    class TestCodeQuality {
+        private static final Path TEST_SUBJECT_PATH = Paths.get("challenge-1/java/ShopDiscount.java");
+
+        @Test
+        @DisplayName("Verifica che il file contenga costanti ben nominate")
+        void testConstantsExtracted() {
+            /*
+             * Questo test cerca costanti UPPER_CASE nel modulo.
+             * Se questo fallisce, significa che non hai ancora estratto
+             * tutte le costanti dal codice.
+             */
+            String source = getClassSource(TEST_SUBJECT_PATH);
+
+            // Questa espressione regolare riconosce pattern del tipo `static final CONST_CASE =`
+            Pattern reConstant = Pattern.compile("static\\s+final\\s+\\S+\\s+[A-Z][A-Z0-9_]+\\s*=");
+            // Usa l'espressione regolare per controllare che ci siano costanti
+            boolean hasConstants = source.lines().map(reConstant::matcher).anyMatch(Matcher::find);
+
+            assertTrue(hasConstants, "Non sembra che tu abbia estratto costanti ben nominate. " +
+                    "Cerca valori come 0.85, 0.75, 100, 500, 0.22 e convertili in costanti CONST_CASE.");
+        }
+
+        @Test
+        @DisplayName("Controlla che la funzione calculateDiscount non contenga numeri magici schiantati")
+        void testNoMagicNumbersInDiscountFunction() {
+            /*
+             * (Questo è un check semplice — se vedi numeri come 0.85, 0.75,
+             * significa che non li hai ancora estratti a costanti!)
+             */
+            String source = getMethodSource(TEST_SUBJECT_PATH, "calculateDiscount");
+
+            // Lista di valori che DOVREBBERO essere stati estratti
+            String[] magicValues = {"0.85", "0.75", "0.9", "0.95", "0.98", "10", "5", "100"};
+            String[] foundMagic = Stream.of(magicValues).filter(source::contains).toArray(String[]::new);
+
+            assertEquals(0, foundMagic.length, "⚠️  Attenzione! Trovati numeri magici: " +
+                    String.join(", ", foundMagic) +
+                    ". Converti questi numeri in costanti ben nominate (CONST_CASE)");
+        }
+
+        @Test
+        @DisplayName("Controlla che la funzione calculateTotalOrder non contenga variabili di una sola lettera")
+        void testNoBadVariableNamesInTotalOrderFunction() {
+            /*
+             * (Questo è un check superficiale — si accerta solo che di non trovare i nomi originari,
+             * assicurati però che i nomi da te scelti siano chiari e significativi!)
+             */
+            String source = getMethodSource(TEST_SUBJECT_PATH, "calculateTotalOrder");
+            System.out.println(source);
+
+            // Lista di nomi che DOVREBBERO essere stati cambiati
+            String[] varNames = "dipqst".split("");
+            System.out.println(source.matches(".*\\bs\\b.*"));
+            // Trova istanze dei nomi circondati da caratteri non-parola
+            String[] foundVars = Stream.of(varNames)
+                    .filter(varName -> source.matches("(?s).*\\b" + varName + "\\b.*"))
+                    .toArray(String[]::new);
+
+            assertEquals(0, foundVars.length, "⚠️  Attenzione! Trovate variabili di una lettera: " +
+                    String.join(", ", foundVars) +
+                    ". Rinomina queste variabili con nomi significativi");
+        }
     }
 
-    @Test
-    @DisplayName("10 prodotti = 10% di sconto aggiuntivo")
-    void testQuantityDiscount10Items() {
-        double result = ShopDiscount.calculateDiscount(100, "basic", 10);
-        double expected = 100 * 0.9;
-        assertEquals(expected, result, String.format("Sconto quantità 10: %f, ottenuto %f", expected, result));
-    }
-
-    @Test
-    @DisplayName("Ordini > €100 ottengono 2% di sconto aggiuntivo")
-    void testLargeOrderDiscount() {
-        double result = ShopDiscount.calculateDiscount(150, "basic", 1);
-        double expected = 150 * 0.98;
-        assertEquals(expected, result, String.format("Sconto ordine grande: %f, ottenuto %f", expected, result));
-    }
-
-    // TOTAL ORDER CALCULATION TESTS:
-    // Testa che il calcolo del totale dell'ordine funzioni.
-
-    @Test
-    @DisplayName("Ordine semplice di un cliente basic")
-    void testOrderBasicCustomer() {
-        final var items = List.of(new ShopDiscount.Item(50, 1));
-        final var order = ShopDiscount.calculateTotalOrder(items, "basic");
-        assertEquals(50, order.subtotal());
-        assertEquals(Math.round(50 * 0.22 * 100.0) / 100.0, order.tax());
-    }
-
-    @Test
-    @DisplayName("Cliente premium dovrebbe avere sconto")
-    void testOrderPremiumCustomer() {
-        final var items = List.of(new ShopDiscount.Item(100, 1));
-        final var order = ShopDiscount.calculateTotalOrder(items, "premium");
-        // €100 * 0.85 (premium) = €85
-        // Tasse: €85 * 0.22 = €18.70
-        // Totale: €85 + €18.70 = €103.70
-        assertEquals(85, order.subtotal());
-        double expected = Math.round((85 + 85 * 0.22) * 100.0) / 100.0;
-        assertEquals(expected, order.total());
-    }
-
-    @Test
-    @DisplayName("Ordini > €500 ottengono ulteriore 5% di sconto")
-    void testLargeOrderGetsFinalDiscount() {
-        final var items = List.of(new ShopDiscount.Item(200, 3));
-        final var order = ShopDiscount.calculateTotalOrder(items, "basic");
-        // Subtotale: €600
-        // Tasse: €600 * 0.22 = €132
-        // Totale prima sconto: €732
-        // Con sconto 5%: €732 * 0.98 * 0.95 = €681.49
-        assertTrue(order.discountApplied(), "Discount should be applied");
-        double expected = Math.round(732 * 0.98 * 0.95 * 100.0) / 100.0;
-        assertEquals(expected, order.total());
-    }
-
-    // CUSTOMER TIER DESCRIPTION TESTS:
-    // Testa le descrizioni dei tipi di cliente.
-
-    @Test
-    void testBasicTierDescription() {
-        String result = ShopDiscount.getCustomerTierDescription("basic");
-        assertTrue(result.contains("Base"));
-    }
-
-    @Test
-    void testPremiumTierDescription() {
-        String result = ShopDiscount.getCustomerTierDescription("premium");
-        assertTrue(result.contains("Premium"));
-    }
-
-    @Test
-    void testVipTierDescription() {
-        String result = ShopDiscount.getCustomerTierDescription("vip");
-        assertTrue(result.contains("VIP"));
-    }
-
-    // TEST CODE QUALITY:
-    // Test che verificano se hai estratto correttamente le costanti.
-
-    private static final Path TEST_SUBJECT_PATH = Paths.get("challenge-1/java/ShopDiscount.java");
-
-    @Test
-    @DisplayName("Verifica che il file contenga costanti ben nominate")
-    /*
-     * Questo test cerca costanti UPPER_CASE nel modulo.
-     * Se questo fallisce, significa che non hai ancora estratto
-     * tutte le costanti dal codice.
-     */
-    void testConstantsExtracted() {
-        String source = getClassSource(TEST_SUBJECT_PATH);
-
-        // Questa espressione regolare riconosce pattern del tipo `static final CONST_CASE =`
-        Pattern reConstant = Pattern.compile("static\\s+final\\s+\\S+\\s+[A-Z][A-Z0-9_]+\\s*=");
-        // Usa l'espressione regolare per controllare che ci siano costanti
-        boolean hasConstants = source.lines().map(reConstant::matcher).anyMatch(Matcher::find);
-
-        assertTrue(hasConstants, "Non sembra che tu abbia estratto costanti ben nominate. " +
-                "Cerca valori come 0.85, 0.75, 100, 500, 0.22 e convertili in costanti CONST_CASE.");
-    }
-
-    @Test
-    @DisplayName("Controlla che la funzione calculateDiscount non contenga numeri magici schiantati")
-    /*
-     * (Questo è un check semplice — se vedi numeri come 0.85, 0.75,
-     * significa che non li hai ancora estratti a costanti!)
-     */
-    void testNoMagicNumbersInDiscountFunction() {
-        String source = getMethodSource(TEST_SUBJECT_PATH, "calculateDiscount");
-
-        // Lista di valori che DOVREBBERO essere stati estratti
-        String[] magicValues = {"0.85", "0.75", "0.9", "0.95", "0.98", "10", "5", "100"};
-        String[] foundMagic = Stream.of(magicValues).filter(source::contains).toArray(String[]::new);
-
-        assertEquals(0, foundMagic.length, "⚠️  Attenzione! Trovati numeri magici: " +
-                String.join(", ", foundMagic) +
-                ". Converti questi numeri in costanti ben nominate (CONST_CASE)");
-    }
-
-    @Test
-    @DisplayName("Controlla che la funzione calculateTotalOrder non contenga variabili di una sola lettera")
-    /*
-     * (Questo è un check superficiale — si accerta solo che di non trovare i nomi originari,
-     * assicurati però che i nomi da te scelti siano chiari e significativi!)
-     */
-    void testNoBadVariableNamesInTotalOrderFunction() {
-        String source = getMethodSource(TEST_SUBJECT_PATH, "calculateTotalOrder");
-        System.out.println(source);
-
-        // Lista di nomi che DOVREBBERO essere stati cambiati
-        String[] varNames = "dipqst".split("");
-        System.out.println(source.matches(".*\\bs\\b.*"));
-        // Trova istanze dei nomi circondati da caratteri non-parola
-        String[] foundVars = Stream.of(varNames)
-                .filter(varName -> source.matches("(?s).*\\b" + varName + "\\b.*"))
-                .toArray(String[]::new);
-
-        assertEquals(0, foundVars.length, "⚠️  Attenzione! Trovate variabili di una lettera: " +
-                String.join(", ", foundVars) +
-                ". Rinomina queste variabili con nomi significativi");
-    }
-
-    // HELPERS:
-    // Funzioni di utilità per estrarre il codice del programma
+    // HELPER: Funzioni di utilità per estrarre il codice del programma
 
     /**
      * This is a helper method to extract the source code of the class under test

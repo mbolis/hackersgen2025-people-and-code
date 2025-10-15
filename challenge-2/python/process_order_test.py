@@ -340,7 +340,7 @@ class TestCodeQuality:
         """Verifica che la funzione `process_order` esista ancora."""
 
         assert hasattr(test_subject, "process_order"), (
-            "⚠️  Non hai più la funzione `process_order`. "
+            "❌  Non hai più la funzione `process_order`. "
             "Dovrebbe restare come coordinatore che chiama le funzioni più piccole."
         )
 
@@ -351,8 +351,8 @@ class TestCodeQuality:
 
         sig = inspect.signature(test_subject.process_order)
         expected = ["order_data", "database", "email_service"]
-        assert expected == sig.parameters, (
-            f"⚠️  Parametri errati in process_order: attesi {expected}, trovati {sig.parameters}"
+        assert expected == list(sig.parameters.keys()), (
+            f"❌  Parametri errati in `process_order`: attesi {expected}, trovati {sig.parameters}"
         )
 
     @pytest.mark.parametrize("func_name", EXPECTED_HELPERS)

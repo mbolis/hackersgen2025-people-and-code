@@ -97,11 +97,11 @@ func TestCustomerTierDescription(t *testing.T) {
 func TestCodeQuality(t *testing.T) {
 	const testSubjectPath = "shop_discount.go"
 
-	/*
-		Questo test cerca costanti PascalCase nel modulo.
-		Se questo fallisce, significa che non hai ancora estratto tutte le costanti dal codice.
-	*/
 	t.Run("Verifica che il file contenga costanti ben nominate", func(t *testing.T) {
+		/*
+			Questo test cerca costanti PascalCase nel modulo.
+			Se questo fallisce, significa che non hai ancora estratto tutte le costanti dal codice.
+		*/
 		source, err := getFileSource(testSubjectPath)
 		require.NoError(t, err)
 
@@ -120,10 +120,10 @@ func TestCodeQuality(t *testing.T) {
 		)
 	})
 
-	/*
-		(Questo è un check semplice — se vedi numeri come 0.85, 0.75, significa che non li hai ancora estratti a costanti!)
-	*/
 	t.Run("Controlla che la funzione CalculateDiscount non contenga numeri magici schiantati", func(t *testing.T) {
+		/*
+			(Questo è un check semplice — se vedi numeri come 0.85, 0.75, significa che non li hai ancora estratti a costanti!)
+		*/
 		source, err := getFunctionSource(testSubjectPath, "CalculateDiscount")
 		require.NoError(t, err)
 
@@ -138,16 +138,16 @@ func TestCodeQuality(t *testing.T) {
 		}
 
 		assert.Empty(t, foundMagic,
-			"⚠️  Attenzione! Trovati numeri magici: %v. Converti questi numeri in costanti ben nominate (CONST_CASE)",
-			foundMagic,
+			"⚠️  Attenzione! Trovati numeri magici: %s. Converti questi numeri in costanti ben nominate (CONST_CASE)",
+			strings.Join(foundMagic, ", "),
 		)
 	})
 
-	/*
-		(Questo è un check superficiale — si accerta solo che di non trovare i nomi originari,
-		assicurati però che i nomi da te scelti siano chiari e significativi!)
-	*/
 	t.Run("Controlla che la funzione CalculateTotalOrder non contenga variabili di una sola lettera", func(t *testing.T) {
+		/*
+			(Questo è un check superficiale — si accerta solo che di non trovare i nomi originari,
+			assicurati però che i nomi da te scelti siano chiari e significativi!)
+		*/
 		source, err := getFunctionSource(testSubjectPath, "CalculateTotalOrder")
 		require.NoError(t, err)
 
@@ -163,8 +163,8 @@ func TestCodeQuality(t *testing.T) {
 		}
 
 		assert.Empty(t, foundVars,
-			"⚠️  Attenzione! Trovate variabili di una lettera: %v. Rinomina queste variabili con nomi significativi",
-			foundVars,
+			"⚠️  Attenzione! Trovate variabili di una lettera: %s. Rinomina queste variabili con nomi significativi",
+			strings.Join(foundVars, ", "),
 		)
 	})
 }

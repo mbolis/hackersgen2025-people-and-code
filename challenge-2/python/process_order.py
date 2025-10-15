@@ -1,5 +1,5 @@
 """
-Challenge 2: Single Responsibility Principle
+Sfida 2: Single Responsibility Principle
 
 Questo file contiene una funzione che viola il SRP.
 Il tuo compito è spezzarla in funzioni più piccole e focalizzate.
