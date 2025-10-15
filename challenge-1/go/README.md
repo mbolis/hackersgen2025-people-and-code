@@ -1,4 +1,4 @@
-# Sfida 1: Clear & Constant - Go Edition
+# Sfida 1: Costanti e Nomi Significativi - Go Edition
 
 È dato il file `shop_discount.go` — un piccolo sistema di sconti per uno shop online.
 
@@ -44,3 +44,5 @@ go test ./challenge-1/go -v
 ```
 
 I test verificano che il comportamento del codice sia rimasto uguale, ma che tu abbia estratto tutte le costanti. **Leggili pure — sono abbastanza semplici e ti possono aiutare a capire cosa cercare!**
+
+**Attenzione:** Non vale modificare il file con i test per far sì che passino!

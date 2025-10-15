@@ -1,4 +1,4 @@
-# Sfida 1: Clear & Constant
+# Sfida 1: Costanti e Nomi Significativi
 
 ## La teoria: Magic Numbers, Magic Strings e il principio DRY
 

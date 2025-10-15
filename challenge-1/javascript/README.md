@@ -1,4 +1,4 @@
-# Sfida 1: Clear & Constant - JavaScript Edition
+# Sfida 1: Costanti e Nomi Significativi - JavaScript Edition
 
 È dato il file `shop-discount.js` — un piccolo sistema di sconti per uno shop online.
 
@@ -46,3 +46,5 @@ npx vitest --run challenge-1/javascript
 Se non lo hai già usato in precedenza, ti verrà chiesto di scaricare il pacchetto `vitest`, che si occupa di eseguire i test, e dovrai accettare.
 
 I test verificano che il comportamento del codice sia rimasto uguale, ma che tu abbia estratto tutte le costanti. **Leggili pure — sono semplici e ti possono aiutare a capire cosa cercare!**
+
+**Attenzione:** Non vale modificare il file con i test per far sì che passino!

@@ -12,7 +12,7 @@ Ora mettetevi alla prova con tre sfide progressivamente più complesse. Ogni sfi
 
 Partecipare è semplice: fai un fork, modifica il codice, crea una PR. ([vedi sotto per maggiori dettagli](#-come-partecipare)) **I primi a completare ogni sfida riceveranno un gadget Hackersgen!** ⭐
 
-### 🟢 Sfida 1: Nomi Significativi e Costanti
+### 🟢 Sfida 1: Costanti e Nomi Significativi
 **Argomenti:** DRY (Don't Repeat Yourself), Self-documenting code, Magic numbers e magic strings
 
 Inizia da qui se è la tua prima sfida. Ti troverai di fronte a un codice pieno di variabili dal nome inutile (`p`, `x`, `tmp`) e valori magici sparsi dappertutto (`0.85`, `100`, `50`). Il tuo compito? Dare nomi significativi alle cose e mettere ordine.
@@ -52,7 +52,7 @@ La sfida finale: un sistema di processamento immagini con logica complessa, nest
 
 Il primo di voi a completare ogni sfida vince un premio speciale!
 
-### Sfida 1: Nomi Significativi e Costanti
+### Sfida 1: Costanti e Nomi Significativi
 🥇 🥈 🥉 *In attesa delle prime submission!*
 
 ### Sfida 2: Single Responsibility Principle

@@ -1,4 +1,4 @@
-# Sfida 1: Clear & Constant - Java Edition
+# Sfida 1: Costanti e Nomi Significativi - Java Edition
 
 È dato il file `ShopDiscount.java` — un piccolo sistema di sconti per uno shop online.
 
@@ -62,3 +62,5 @@ java -jar lib/junit-platform-console-standalone.jar execute --class-path "out;te
 ```
 
 I test verificano che il comportamento del codice sia rimasto uguale, ma che tu abbia estratto tutte le costanti. **Leggili pure — sono abbastanza semplici e ti possono aiutare a capire cosa cercare!**
+
+**Attenzione:** Non vale modificare il file con i test per far sì che passino!

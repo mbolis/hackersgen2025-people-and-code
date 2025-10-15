@@ -1,10 +1,10 @@
-# Sfida 1: Clear & Constant - Python Edition
+# Sfida 1: Costanti e Nomi Significativi - Python Edition
 
 È dato il file `shop_discount.py` — un piccolo sistema di sconti per uno shop online.
 
 Il codice funziona, ma è pieno di **magic numbers** e **magic strings**. Variabili con nomi inutili (`p`, `d`, `c`). Valori sparsi ovunque.
 
-**Il tuo compito:**
+## Il tuo compito:
 
 1. Identificare tutti i valori "schiantati"
 2. Convertirli in costanti ben nominate (in CONST_CASE... c'è un motivo se si chiama così, no?)
@@ -45,3 +45,5 @@ python -m pytest challenge-1/python/shop_discount_tests.py -v
 ```
 
 I test verificano che il comportamento del codice sia rimasto uguale, ma che tu abbia estratto tutte le costanti. **Leggili pure — sono semplici e ti possono aiutare a capire cosa cercare!**
+
+**Attenzione:** Non vale modificare il file con i test per far sì che passino!
