@@ -36,7 +36,7 @@ Una funzione che fa di tutto: valida, calcola, salva, notifica, logga. È il peg
 
 ---
 
-### 🔴 Sfida 3: Incapsulamento e Astrazione
+### 🔴 Sfida 3: (Inter)Facce Pulite
 **Argomenti:** Incapsulamento, Astrazione, Information hiding, Interfacce semplici
 
 La sfida finale: un sistema di processamento immagini con logica complessa, nesting profondo e gestione errori sparsa. Devi crearne un'astrazione elegante, nascondendo i dettagli dietro interfacce semplici e intuitive. Questa è la sfida dove metti insieme tutto quello che hai imparato.
@@ -58,7 +58,7 @@ Il primo di voi a completare ogni sfida vince un premio speciale!
 ### Sfida 2: Single Responsibility Principle
 🥇 🥈 🥉 *In attesa delle prime submission!*
 
-### Sfida 3: Incapsulamento e Astrazione
+### Sfida 3: (Inter)Facce Pulite
 🥇 🥈 🥉 *In attesa delle prime submission!*
 
 ---
