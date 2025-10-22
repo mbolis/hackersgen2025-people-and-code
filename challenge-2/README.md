@@ -28,56 +28,80 @@ Una funzione focalizzata è invece:
 
 ### Un semplice esempio
 
-```python
-# ❌ SRP violato: la funzione fa troppo
-def process_user(user_data, database):
-    # Valida i dati
-    if not user_data.get("email"):
-        return {"error": "Email mancante"}
-    
-    # Calcola qualcosa
-    user_data["score"] = len(user_data["name"]) * 2
-    
-    # Salva nel database
-    database.save(user_data)
-    
-    # Invia email
-    send_email(user_data["email"], "Benvenuto!")
-    
-    # Logga
-    print(f"User {user_data['name']} processed")
-    
-    return user_data
+```go
+// ❌ SRP violato: la funzione fa troppo
+func ProcessUser(userData UserData, database DB) (UserData, error) {
+  // Valida i dati
+  if userData.Email == "" {
+    return UserData{}, errors.New("Email mancante")
+  }
+  // Calcola qualcosa
+  userData.Score = len(userData.Name) * 2
+  // Salva nel database
+  err := database.save(userData)
+  if err != nil {
+    return UserData{}, err
+  }
+  // Invia email
+  err = SendEmail(userData.Email, "Benvenuto!")
+  if err != nil {
+    return UserData{}, err
+  }
+  // Logga
+  log.Printf("User %s processed", userData.Name)
 
-# ✅ SRP rispettato: ogni funzione fa una cosa sola
-def validate_user(user_data):
-    if not user_data.get("email"):
-        raise ValueError("Email mancante")
-    return True
+  return userData, nil
+}
 
-def calculate_user_score(user_data):
-    return len(user_data["name"]) * 2
+// ✅ SRP rispettato: ogni funzione fa una cosa sola
+func validateUser(userData UserData) error {
+  if userData.Email == "" {
+    return errors.New("validation: Email mancante")
+  }
+  return nil
+}
+func calculateUserScore(userData UserData) int {
+  return len(userData.Name) * 2
+}
+func saveUserToDatabase(userData UserData, database DB) error {
+  err := database.save(userData)
+  if err != nil {
+    return fmt.Errorf("save_user: %w", err)
+  }
+  return nil
+}
+func notifyUser(email string) error {
+  err := SendEmail(email, "Benvenuto!")
+  if err != nil {
+    return fmt.Errorf("notifiy_user: %w", err)
+  }
+  return nil
+}
+func logUserProcessing(username string) {
+  log.Printf("User %s processed", username)
+}
 
-def save_user_to_database(user_data, database):
-    database.save(user_data)
-
-def notify_user(email):
-    send_email(email, "Benvenuto!")
-
-def log_user_processing(username):
-    print(f"User {username} processed")
-
-# Nel codice principale, le usi tutte insieme
-def process_user(user_data, database):
-    validate_user(user_data)
-    user_data["score"] = calculate_user_score(user_data)
-    save_user_to_database(user_data, database)
-    notify_user(user_data["email"])
-    log_user_processing(user_data["name"])
-    return user_data
+// Il punto di accesso principale è responsabile di orchestrarle
+func ProcessUser(userData UserData, database DB) (UserData, error) {
+  err := validateUser(userData)
+  if err != nil {
+    return UserData{}, err
+  }
+  userData.Score = calculateUserScore(userData)
+  err = saveUserToDatabase(userData, database)
+  if err != nil {
+    return UserData{}, err
+  }
+  err = notifyUser(userData.Email)
+  if err != nil {
+    return UserData{}, err
+  }
+  logUserProcessing(userData.Name)
+  return userData, nil
+}
 ```
 
-**Nota bene:** la versione "buona" sembra più lunga, ma è molto più flessibile. Se domani devi solo validare un utente, usi la funzione `validate_user`. Se devi solo calcolare lo score, usi `calculate_user_score`. Nella versione "cattiva" non puoi.
+**Nota bene:** la versione "buona" sembra più lunga, ma è molto più flessibile. Se domani devi solo validare un utente, usi la funzione `validateUser`. Se devi solo calcolare lo score, usi `calculateUserScore`. Nella versione "cattiva" non puoi.
 
 ## Approfondimenti
 

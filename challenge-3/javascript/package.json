@@ -1,0 +1,13 @@
+{
+  "name": "steganography",
+  "version": "0.1.0",
+  "description": "A library for embedding and extracting hidden metadata in PNG images.",
+  "main": "run-tests.js",
+  "type": "module",
+  "dependencies": {
+    "pngjs": "^7.0.0"
+  },
+  "devDependencies": {
+    "vitest": "^4.0.3"
+  }
+}

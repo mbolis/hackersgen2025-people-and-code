@@ -47,18 +47,10 @@ Scarica il JAR del runner [junit-platform-console-standalone](https://repo1.mave
 Supponiamo di averlo scaricato sotto `lib/junit-platform-console-standalone.jar`.
 
 Compila il codice, poi compila ed esegui i test:
-* sotto Linux e MacOS:
 
 ```bash
-javac -cp 'out:lib/junit-platform-console-standalone.jar' -d test_out ./challenge-1/java/ShopDiscountTest.java
-java -jar lib/junit-platform-console-standalone.jar execute --class-path 'out:test_out' --scan-class-path
-```
-
-* sotto Windows:
-
-```bash
-javac -cp "out;lib/junit-platform-console-standalone.jar" -d test_out ./challenge-1/java/ShopDiscountTest.java
-java -jar lib/junit-platform-console-standalone.jar execute --class-path "out;test_out" --scan-class-path
+javac -cp lib/junit-platform-console-standalone.jar -d shop_out ./challenge-1/java/ShopDiscount.java ./challenge-1/java/ShopDiscountTest.java
+java -jar lib/junit-platform-console-standalone.jar execute --class-path shop_out --scan-class-path
 ```
 
 I test verificano che il comportamento del codice sia rimasto uguale, ma che tu abbia estratto tutte le costanti. **Leggili pure — sono abbastanza semplici e ti possono aiutare a capire cosa cercare!**

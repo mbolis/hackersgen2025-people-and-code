@@ -48,18 +48,10 @@ Scarica il JAR del runner [junit-platform-console-standalone](https://repo1.mave
 Supponiamo di averlo scaricato sotto `lib/junit-platform-console-standalone.jar`.
 
 Compila il codice, poi compila ed esegui i test:
-* sotto Linux e MacOS:
 
 ```bash
-javac -cp 'out:lib/junit-platform-console-standalone.jar' -d test_out ./challenge-2/java/ProcessOrderTest.java
-java -jar lib/junit-platform-console-standalone.jar execute --class-path 'out:test_out' --scan-class-path
-```
-
-* sotto Windows:
-
-```bash
-javac -cp "out;lib/junit-platform-console-standalone.jar" -d test_out ./challenge-2/java/ProcessOrderTest.java
-java -jar lib/junit-platform-console-standalone.jar execute --class-path "out;test_out" --scan-class-path
+javac -cp lib/junit-platform-console-standalone.jar -d order_out ./challenge-2/java/ProcessOrder.java ./challenge-2/java/ProcessOrderTest.java
+java -jar lib/junit-platform-console-standalone.jar execute --class-path order_out --scan-class-path
 ```
 
 I test verificano che il comportamento del codice sia rimasto uguale, ma che tu abbia estratto tutte le responsabilità in funzioni separate. **Leggili pure — sono abbastanza semplici e ti possono aiutare a capire cosa cercare!**

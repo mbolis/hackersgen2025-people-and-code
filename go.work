@@ -3,4 +3,5 @@ go 1.24.3
 use (
 	./challenge-1/go
 	./challenge-2/go
+	./challenge-3/go
 )

@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { describe, it, expect, beforeEach } from 'vitest';
-import { processOrder, MyDatabase, MyEmailService } from './process-order';
+import { processOrder } from './process-order';
 
 // Mock Database per i test
 class MockDatabase {

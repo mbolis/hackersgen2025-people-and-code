@@ -41,7 +41,7 @@ node challenge-2/javascript/process-order.js
 Se vuoi validare automaticamente il tuo lavoro, lancia i comandi:
 
 ```bash
-npx vitest --run challenge-2/javascript
+npx vitest run challenge-2/javascript
 ```
 
 Se non lo hai già usato in precedenza, ti verrà chiesto di scaricare il pacchetto `vitest`, che si occupa di eseguire i test, e dovrai accettare.

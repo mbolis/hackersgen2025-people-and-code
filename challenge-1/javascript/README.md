@@ -40,7 +40,7 @@ node challenge-1/javascript/shop-discount.js
 Se vuoi validare automaticamente il tuo lavoro, lancia il comando:
 
 ```bash
-npx vitest --run challenge-1/javascript
+npx vitest run challenge-1/javascript
 ```
 
 Se non lo hai già usato in precedenza, ti verrà chiesto di scaricare il pacchetto `vitest`, che si occupa di eseguire i test, e dovrai accettare.
