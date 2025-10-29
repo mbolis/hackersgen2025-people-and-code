@@ -54,6 +54,7 @@ Il primo di voi a completare ogni sfida vince un premio speciale!
 
 ### Sfida 1: Costanti e Nomi Significativi
 🥇 [@imadchatraoui](https://github.com/mbolis/hackersgen2025-people-and-code/pull/1) *Pull request n. 1*
+
 🥈 🥉 *In attesa di altre submission!*
 
 ### Sfida 2: Single Responsibility Principle
