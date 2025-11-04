@@ -8,9 +8,20 @@ import java.util.List;
  */
 public class ShopDiscount {
 
+    public static final double STANDARD_DISCOUNT = 0.85;
+    public static final double PREMIUM_DISCOUNT = 0.85;
+    public static final double VIP_DISCOUNT = 0.75;
+    public static final double QUANTITY_DISCOUNT_5 = 0.95;
+    public static final double QUANTITY_DISCOUNT_10 = 0.9;
+    public static final double LARGE_ORDER_DISCOUNT_THRESHOLD = 100.0;
+    public static final double LARGE_ORDER_DISCOUNT = 0.98;
+    public static final double TAX_RATE = 0.22;
+    public static final double TOTAL_ORDER_DISCOUNT_THRESHOLD = 500.0;
+    public static final double TOTAL_ORDER_DISCOUNT = 0.95;
+
     public record Item(
-            double p,
-            int q
+            double price,
+            int quantity
     ) {
     }
 
@@ -33,24 +44,24 @@ public class ShopDiscount {
     public static double calculateDiscount(double price, String customerType, int quantity) {
         // Sconto per clienti premium
         if (customerType.equals("premium")) {
-            price = price * 0.85;
+            price = price * PREMIUM_DISCOUNT;
         }
 
         // Sconto per clienti VIP
         if (customerType.equals("vip")) {
-            price = price * 0.75;
+            price = price * VIP_DISCOUNT;
         }
 
         // Sconto per quantità
         if (quantity >= 10) {
-            price = price * 0.9;
+            price = price * QUANTITY_DISCOUNT_10;
         } else if (quantity >= 5) {
-            price = price * 0.95;
+            price = price * QUANTITY_DISCOUNT_5;
         }
 
         // Sconto minimo garantito per ordini grandi
         if (price > 100) {
-            price = price * 0.98;
+            price = price * LARGE_ORDER_DISCOUNT;
         }
 
         return Math.round(price * 100.0) / 100.0;
@@ -64,28 +75,28 @@ public class ShopDiscount {
      * @return mappa con subtotale, tasse e totale finale
      */
     public static Order calculateTotalOrder(List<Item> products, String customerType) {
-        double s = 0;
+        double subtotal = 0;
 
         for (Item i : products) {
-            double d = calculateDiscount(i.p(), customerType, i.q());
-            s = s + (d * i.q());
+            double discount = calculateDiscount(i.price(), customerType, i.quantity());
+            subtotal = subtotal + (discount * i.quantity());
         }
 
         // Tassa sul valore
-        double t = s * 0.22;
+        double tax = subtotal * 0.22;
 
-        double tot = s + t;
+        double tot = subtotal + tax;
 
         // Sconto finale se l'ordine è superiore a 500 euro
         if (tot > 500) {
-            tot = tot * 0.95;
+            tot = tot * TOTAL_ORDER_DISCOUNT;
         }
 
         Order result = new Order(
-                Math.round(s * 100.0) / 100.0,
-                Math.round(t * 100.0) / 100.0,
+                Math.round(subtotal * 100.0) / 100.0,
+                Math.round(tax * 100.0) / 100.0,
                 Math.round(tot * 100.0) / 100.0,
-                tot != s + t
+                tot != subtotal + tax
         );
         return result;
     }
